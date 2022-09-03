@@ -1,4 +1,4 @@
-# Wiedereinstieg Python nach einer längeren Pause
+# Wiedereinstieg in Python nach einer längeren Pause
 ![](./images/OIP.jpg)
 
 Mein Wiedereinstieg in Python war nicht einmal so schwierig. Ich wusste noch die meisten Sachen, musste aber trotzdem ein paar mal spicken.   
@@ -10,5 +10,3 @@ Es ist mir nicht nur einmal passiert, dass ich `rigth()` anstelle von `right()` 
 Danach ging es darum schleifen zu machen, damit man einzelne Codeabschnitte nicht hundert mal wiederholen muss, aber ich habe schon Schleifen gemacht, bevor es überhaupt eingeführt wurde.  
 
 Zu guter letzt, war es die Aufgabe, Fehler in einem Code zu finde. das fiel mir aber auch leicht.  
-
---end--
