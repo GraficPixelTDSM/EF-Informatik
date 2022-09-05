@@ -1,5 +1,5 @@
 from time import *
-prim = [1, ]
+prim = []
 
 
 def main():
