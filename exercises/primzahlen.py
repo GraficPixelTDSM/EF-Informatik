@@ -3,8 +3,9 @@ prim = [1, ]
 
 
 def main():
-    print("HINWEIS: Die Primzahlen von 1 bis 100'000, mit diesem Code zu berechnen dauert ca. 1079 Sekunden (17:59.147),")
-    print("die Primzahlen von 1 bis 10'000 jedoch brauchen lediglich ca. 11 Sekunden (00:11.274).")
+    print('''HINWEIS: Die Primzahlen von 1 bis 100'000, mit diesem Code zu berechnen dauert ca. 1079 Sekunden (17:59.147),
+die Primzahlen von 1 bis 10'000 jedoch brauchen lediglich ca. 11 Sekunden (00:11.274).'''
+    )
     N = int(input('Die Primzahlen von 1 bis wieviel willst du berechnet haben? '))
     start_time = time()
     for i in range(N):
