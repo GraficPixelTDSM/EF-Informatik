@@ -8,10 +8,10 @@ die Primzahlen von 1 bis 10'000 jedoch brauchen lediglich ca. 11 Sekunden (00:11
     )
     N = int(input('Die Primzahlen von 1 bis wieviel willst du berechnet haben? '))
     start_time = time()
-    for i in range(N):
+    for i in range(1, N + 1): # erzeugt eine iterierbare Liste von 1 bis und mit N
         zähler = 0
-        for w in range(N):
-            x = ((i + 1) % (w + 1))
+        for w in range(1, N + 1): # erzeugt eine iterierbare Liste von 1 bis und mit N
+            x = i % w
             if x != 0:
                 zähler = zähler + 1
         if zähler == (N - 2):
