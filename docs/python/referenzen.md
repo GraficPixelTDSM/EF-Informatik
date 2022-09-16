@@ -1,6 +1,8 @@
 # X = Y 
 
 ## Problem:
+!!!Das folgende ist nur auf Listen anwendbar!!!  
+  
 Angenommen wir setzen in einem Code die Variable y mit `y = 5` auf den Wert 5.  
 Wenn man jetzt `x = y` in einem Code schreibt, übernimmt x zu diesem Zeitpunkt den Wert von y, also 5.  
 Wenn man danach aber den Wert für y verändert z.B. durch `y = y + 1`, wird man beim Drucken beider Variabeln folgendes erhalten:  
