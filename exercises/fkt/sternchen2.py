@@ -1,7 +1,6 @@
 from random import randint
 import time
 k = 0
-
 while k != 11:
     x = randint(2, 30)
     y = randint(2, 30)
@@ -12,7 +11,6 @@ while k != 11:
     def vertikal(höhe):
         for i in range(höhe - 2):
             print("*" + " " * (y - 2) + "*")
-
     horizontal(y)
     vertikal(x)
     horizontal(y)
