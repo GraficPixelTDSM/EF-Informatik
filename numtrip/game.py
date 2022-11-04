@@ -16,17 +16,19 @@ for i in range(5):
             anzeige[i].append(f"{spiel[i][j]} ")
         else:
             anzeige[i].append(f"{spiel[i][j]}")
-print('╔══════╤══════╤══════╤══════╤══════╗')
+print('    01     02     03     04     05   ')
+print(' ╔══════╤══════╤══════╤══════╤══════╗')
 for i in range(5):
     def logg(pn):
         pn = int(log(int(anzeige[i][(pn - 1)])) / log(2) + 30)
         return pn
-    print("║      │      │      │      │      ║")
-    print("║", f'\033[{logg(1)}m' + anzeige[i][0], '\033[39m' + "│", f'\033[{logg(2)}m' + anzeige[i][1], '\033[39m' + "│", f'\033[{logg(3)}m' +
+    print(" ║      │      │      │      │      ║")
+    print(str(i + 1) + "║", f'\033[{logg(1)}m' + anzeige[i][0], '\033[39m' + "│", f'\033[{logg(2)}m' + anzeige[i][1], '\033[39m' + "│", f'\033[{logg(3)}m' +
           anzeige[i][2], '\033[39m' + "│", f'\033[{logg(4)}m' + anzeige[i][3], '\033[39m' + "│", f'\033[{logg(5)}m' + anzeige[i][4], '\033[39m' + "║")
-    print("║      │      │      │      │      ║")
+    print(" ║      │      │      │      │      ║")
     if i < 4:
-        print("╟──────┼──────┼──────┼──────┼──────╢")
-print("╚══════╧══════╧══════╧══════╧══════╝")
+        print(" ╟──────┼──────┼──────┼──────┼──────╢")
+print(" ╚══════╧══════╧══════╧══════╧══════╝")
 
 # log(zahl) / log(exponent)
+# TDSM
