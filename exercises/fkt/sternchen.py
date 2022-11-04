@@ -1,5 +1,5 @@
-x = int(input("Wie hoch soll die Figur werden? "))
-y = int(input("Wie breit soll die Figur werden? "))
+y = int(input("Wie hoch soll die Figur werden? "))
+x = int(input("Wie breit soll die Figur werden? "))
 
 
 def horizontal(breite):
@@ -8,9 +8,13 @@ def horizontal(breite):
 
 def vertikal(höhe):
     for i in range(höhe - 2):
-        print("*" + " " * (y - 2) + "*")
+        print("*" + " " * (x - 2) + "*")
 
 
-horizontal(y)
-vertikal(x)
-horizontal(y)
+def rechteck(x, y):
+    horizontal(x)
+    vertikal(y)
+    horizontal(x)
+
+
+rechteck(x, y)
