@@ -2,7 +2,7 @@ from random import randint
 from colorama import init
 from math import *
 MAX_POTENZ_START = 3
-max_potenz_var = 2
+max_potenz_var = 4
 col = 0
 Game_Over = False
 global spiel
@@ -71,7 +71,7 @@ while Game_Over is False:
     print('\033[92m' + f'Ausgewählte Koordinate: (' + x_a + ';' + y_a + ')' + '\033[0m')
     x_a = int(x_a) - 1
     y_a = int(y_a) - 1
-    print(len(check[0]))
+    # print(len(check[0]))
     tempa = 0
     while len(check[0]) > 1:
         tempa = +1
@@ -94,7 +94,7 @@ while Game_Over is False:
                         check[1].append(y + 1)
                         spiel[y][x + 1] = 0
                         isit = +1
-                        print('same right')
+                        #print('same right')
             if x > 0:
                 anz1 = int(anzeige[y][x - 1].strip())
                 anz2 = int(anzeige[y][x].strip())
@@ -104,7 +104,7 @@ while Game_Over is False:
                         check[1].append(y + 1)
                         spiel[y][x - 1] = 0
                         isit = +1
-                        print('same left')
+                        #print('same left')
             if y < 4:
                 anz1 = int(anzeige[y + 1][x].strip())
                 anz2 = int(anzeige[y][x].strip())
@@ -114,7 +114,7 @@ while Game_Over is False:
                         check[1].append(y + 2)
                         spiel[y + 1][x] = 0
                         isit = +1
-                        print('same down')
+                        #print('same down')
             if y > 0:
                 anz1 = int(anzeige[y - 1][x].strip())
                 anz2 = int(anzeige[y][x].strip())
@@ -124,7 +124,7 @@ while Game_Over is False:
                         check[1].append(y)
                         spiel[y - 1][x] = 0
                         isit = +1
-                        print('same up')
+                        #print('same up')
     spiel[y_a][x_a] = anz3 * 2
 
     while 0 in spiel[0] or 0 in spiel[1] or 0 in spiel[2] or 0 in spiel[3] or 0 in spiel[4]:
