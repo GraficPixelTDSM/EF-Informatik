@@ -73,6 +73,7 @@ while Game_Over is False:
     y_a = int(y_a) - 1
     # print(len(check[0]))
     tempa = 0
+    tempb = 0
     while len(check[0]) > 1:
         tempa = +1
         for lenc in range(len(check[0]) - 1):
@@ -94,6 +95,7 @@ while Game_Over is False:
                         check[1].append(y + 1)
                         spiel[y][x + 1] = 0
                         isit = +1
+                        tempb = 1
                         #print('same right')
             if x > 0:
                 anz1 = int(anzeige[y][x - 1].strip())
@@ -104,6 +106,7 @@ while Game_Over is False:
                         check[1].append(y + 1)
                         spiel[y][x - 1] = 0
                         isit = +1
+                        tempb = 1
                         #print('same left')
             if y < 4:
                 anz1 = int(anzeige[y + 1][x].strip())
@@ -114,6 +117,7 @@ while Game_Over is False:
                         check[1].append(y + 2)
                         spiel[y + 1][x] = 0
                         isit = +1
+                        tempb = 1
                         #print('same down')
             if y > 0:
                 anz1 = int(anzeige[y - 1][x].strip())
@@ -124,8 +128,10 @@ while Game_Over is False:
                         check[1].append(y)
                         spiel[y - 1][x] = 0
                         isit = +1
+                        tempb = 1
                         #print('same up')
-    spiel[y_a][x_a] = anz3 * 2
+    if tempb == 1:
+        spiel[y_a][x_a] = anz3 * 2
 
     while 0 in spiel[0] or 0 in spiel[1] or 0 in spiel[2] or 0 in spiel[3] or 0 in spiel[4]:
         for l in range(5):
