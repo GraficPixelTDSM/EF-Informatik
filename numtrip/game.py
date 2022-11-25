@@ -3,8 +3,8 @@
 from random import randint
 from colorama import init
 from math import *
-MAX_POTENZ_START = 3
-max_potenz_var = 3
+MAX_POTENZ_START = 5
+max_potenz_var = 5
 col = 0
 WIN_NUM = 128
 Game_Over = False
@@ -36,7 +36,8 @@ def field_print():
     i = 0
     for i in range(5):
         def logg(p):
-            pn = int(log(int(spiel[i][(p - 1)])) / log(2) + 90)
+            pn = int(log(int(spiel[i][(p - 1)])) / log(2))
+            pn = int((pn % 5) + 92)
             return pn
         print(" ║      │      │      │      │      ║")
         print('\033[35m' + str(i + 1) + '\033[39m' + "║", f'\033[1;{logg(1)}m' + anzeige[i][0], '\033[0;39m' + "│", f'\033[1;{logg(2)}m' + anzeige[i][1], '\033[0;39m' + "│", f'\033[1;{logg(3)}m' +
