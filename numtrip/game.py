@@ -1,14 +1,9 @@
-# Farben für hohe Zahlen anpassen (über 128)
-
 from random import randint
-from colorama import init
 from math import *
-MAX_POTENZ_START = 5
-max_potenz_var = 5
-col = 0
+MAX_POTENZ_START = 2
+MAX_POTENZ_VAR = 2
 WIN_NUM = 128
 Game_Over = False
-global spiel
 ok = 0
 wl = 0
 spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)] for i in range(5)]
@@ -23,6 +18,7 @@ print('\n' + '\033[33m' + '═════════════════�
 def field_print():
     for i in range(5):
         for j in range(5):
+            global spiel
             if spiel[i][j] < 10:
                 anzeige[i][j] = f"  {spiel[i][j]} "
             elif spiel[i][j] < 100:
@@ -77,13 +73,12 @@ def main():
             y_a = input('Welche Position auf der Y-Achse willst du auswählen? ')
         check[1].append(y_a)
         if wl == 0:
-            print('\033[92m' + f'Ausgewählte Koordinate: (' + x_a + ';' + y_a + ')' + '\033[0m')
+            print('\033[92m' + 'Ausgewählte Koordinate: (' + x_a + ';' + y_a + ')' + '\033[0m')
         elif wl == 1:
-            print('\033[92m' + f'Ausgewählte Koordinate: (' + x_a + ';' + y_a + ')' +
+            print('\033[92m' + 'Ausgewählte Koordinate: (' + x_a + ';' + y_a + ')' +
                   '\033[91m' + ' (Unbegrenzter Modus)' + '\033[0m')
         x_a = int(x_a) - 1
         y_a = int(y_a) - 1
-        # print(len(check[0]))
         tempa = 0
         tempb = 0
         while len(check[0]) > 1:
@@ -108,7 +103,6 @@ def main():
                             spiel[y][x + 1] = 0
                             isit = +1
                             tempb = 1
-                            #print('same right')
                 if x > 0:
                     anz1 = int(anzeige[y][x - 1].strip())
                     anz2 = int(anzeige[y][x].strip())
@@ -119,7 +113,6 @@ def main():
                             spiel[y][x - 1] = 0
                             isit = +1
                             tempb = 1
-                            #print('same left')
                 if y < 4:
                     anz1 = int(anzeige[y + 1][x].strip())
                     anz2 = int(anzeige[y][x].strip())
@@ -130,7 +123,6 @@ def main():
                             spiel[y + 1][x] = 0
                             isit = +1
                             tempb = 1
-                            #print('same down')
                 if y > 0:
                     anz1 = int(anzeige[y - 1][x].strip())
                     anz2 = int(anzeige[y][x].strip())
@@ -141,7 +133,6 @@ def main():
                             spiel[y - 1][x] = 0
                             isit = +1
                             tempb = 1
-                            #print('same up')
         if tempb == 1:
             spiel[y_a][x_a] = anz3 * 2
 
@@ -150,7 +141,7 @@ def main():
                 for m in range(5):
                     if spiel[l][m] == 0:
                         if l == 0:
-                            spiel[l][m] = 2**randint(1, max_potenz_var)
+                            spiel[l][m] = 2**randint(1, MAX_POTENZ_VAR)
                         else:
                             spiel[l][m] = spiel[l - 1][m]
                             spiel[l - 1][m] = 0
