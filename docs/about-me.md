@@ -10,6 +10,13 @@
    - Minecraft
    - Destiny 2
    - World of Warships
+   - Ghost Recon: Wildlands
+   - Rainbow Six Siege
+   - Titanfall 2
+   - Ready or not
+   - Blair Witch
+   - Hitman 1 / 2 / 3
+   - Clash of Clans
 
 - Lieblingsfilme:
    - Ready Player One
