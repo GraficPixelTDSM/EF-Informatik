@@ -1,5 +1,5 @@
 from random import randint
-from math import *
+from math import log
 MAX_POTENZ_START = 2
 MAX_POTENZ_VAR = 2
 WIN_NUM = 128
@@ -7,38 +7,29 @@ Game_Over = False
 ok = 0
 wl = 0
 spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)] for i in range(5)]
-
 anzeige = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]]
 check = [[0], [0]]
 #check= [[y], [x]]
-print('\n' + '\033[33m' + '════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n' + '\033[96m' + f'Willkommen zu Numtrip! Klicke auf eine Zahl um alle anliegenden, gleichen Zahlen auf diesen Block zusammenzufassen.\nDabei wird der Wert der angeklickten Zahl verdoppelt. Es werden ständig neue Zahlen kommen, sobald du einige zusammenfasst. \nVersuche die Zahl {WIN_NUM} zu erreichen, oder spiele danach im unbegrenzten Modus weiter.\nViel Glück!\n-GPTDSM' +
-      '\033[33m' + '\n\n════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n')
+print('\n' + '\033[33m' + '════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n' + '\033[96m' +
+      f'Willkommen zu Numtrip! Klicke auf eine Zahl um alle anliegenden, gleichen Zahlen auf diesen Block zusammenzufassen.\nDabei wird der Wert der angeklickten Zahl verdoppelt. Es werden ständig neue Zahlen kommen, sobald du einige zusammenfasst. \nVersuche die Zahl {WIN_NUM} zu erreichen, oder spiele danach im unbegrenzten Modus weiter.\nViel Glück!\n-GPTDSM' + '\033[33m' + '\n\n════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n')
 
 
 def field_print():
     for i in range(5):
         for j in range(5):
             global spiel
-            if spiel[i][j] < 10:
-                anzeige[i][j] = f"  {spiel[i][j]} "
-            elif spiel[i][j] < 100:
-                anzeige[i][j] = f" {spiel[i][j]} "
-            elif spiel[i][j] < 1000:
-                anzeige[i][j] = f" {spiel[i][j]}"
-            else:
-                anzeige[i][j] = f"{spiel[i][j]}"
-    print('\033[35m' + '    01     02     03     04     05   ' + '\033[39m')
-    print(' ╔══════╤══════╤══════╤══════╤══════╗')
-    i = 0
+            for k in range(4):
+                if spiel[i][j] < 10**k:
+                    k = 4 - k
+                    anzeige[i][j] = k * " " + f'{spiel[i][j]}'
+                    break
+    print('\033[35m' + '    01     02     03     04     05   ' + '\033[39m' + '\n ╔══════╤══════╤══════╤══════╤══════╗')
     for i in range(5):
         def logg(p):
-            pn = int(log(int(spiel[i][(p - 1)])) / log(2))
-            pn = int((pn % 5) + 92)
+            pn = int(((log(int(spiel[i][(p - 1)])) / log(2)) % 5) + 92)
             return pn
-        print(" ║      │      │      │      │      ║")
-        print('\033[35m' + str(i + 1) + '\033[39m' + "║", f'\033[1;{logg(1)}m' + anzeige[i][0], '\033[0;39m' + "│", f'\033[1;{logg(2)}m' + anzeige[i][1], '\033[0;39m' + "│", f'\033[1;{logg(3)}m' +
-              anzeige[i][2], '\033[0;39m' + "│", f'\033[1;{logg(4)}m' + anzeige[i][3], '\033[0;39m' + "│", f'\033[1;{logg(5)}m' + anzeige[i][4], '\033[0;39m' + "║")
-        print(" ║      │      │      │      │      ║")
+        print(" ║      │      │      │      │      ║\n" + '\033[35m' + str(i + 1) + '\033[39m' + "║", f'\033[1;{logg(1)}m' + anzeige[i][0], '\033[0;39m' + "│", f'\033[1;{logg(2)}m' + anzeige[i][1], '\033[0;39m' + "│", f'\033[1;{logg(3)}m' +
+              anzeige[i][2], '\033[0;39m' + "│", f'\033[1;{logg(4)}m' + anzeige[i][3], '\033[0;39m' + "│", f'\033[1;{logg(5)}m' + anzeige[i][4], '\033[0;39m' + "║\n" + " ║      │      │      │      │      ║")
         if i < 4:
             print(" ╟──────┼──────┼──────┼──────┼──────╢")
     print(" ╚══════╧══════╧══════╧══════╧══════╝")
@@ -48,7 +39,6 @@ field_print()
 
 
 def main():
-    global Game_Over
     Game_Over = False
     while Game_Over is False:
         def check_num_input(inp):
