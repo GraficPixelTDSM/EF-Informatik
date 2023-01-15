@@ -5,9 +5,8 @@ MAX_POTENZ_START = 5  # setzt die maximale Potenz der Zahlen die (anfänglich) g
 MAX_POTENZ_VAR = 2  # setzt die maximale Potenz der Zahlen die (neu) generiert werden fest
 WIN_NUM = 128  # setzt die zu erreichende Zahl fest um das Spiel zu gewinnen
 Game_Over = False
-ok = 0
-wl = 0  # setzt einige Werte für Variabeln ein
-dateiname = 'numtrip_safe.json'  # setzt den Namen der Speicherdatei fest. Gespeichert: spiel, wl, ok
+ok = 0  # setzt einige Werte für Variabeln ein
+dateiname = 'numtrip_safe.json'  # setzt den Namen der Speicherdatei fest. Gespeichert: spiel, ok
 daten = {}  # -> sagt, dass "daten" eine Datensammlung ist
 spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
          for i in range(5)]  # generiere das anfängliche Spielfeld
@@ -83,7 +82,7 @@ def main():
                 return False
         global x_a
         global y_a
-        global wl
+        global ok
         x_a = input('[?] Welche Position auf der X-Achse willst du auswählen? ')  # Frage nach einer Eingabe
         while check_num_input(x_a) is False:
             # Frage erneut, wenn die Prüfung "False" zurückgibt
@@ -93,10 +92,19 @@ def main():
         while check_num_input(y_a) is False:
             y_a = input('[?] Welche Position auf der Y-Achse willst du auswählen? ')
         check[1].append(y_a)
-        if wl == 0:
+        if load_game == 'l':  # wenn ein Spielstand geladen werden soll:
+            try:  # versuche den gespeicherten Wert für "ok" zu laden
+                with open(dateiname) as f:
+                    daten = json.load(f)
+                    global ok
+                    ok = daten['ok']
+            except:  # sonst setzt "ok" = 0
+                ok = 0
+
+        if ok == 0:
             print('\033[92m' + '[!] Ausgewählte Koordinate: (' + x_a + ';' +
                   y_a + ')' + '\033[0m')  # Drucke die gewählte Koordinate aus
-        elif wl == 1:
+        elif ok == 1:
             print('\033[92m' + '[!] Ausgewählte Koordinate: (' + x_a + ';' +
                   y_a + ')' + '\033[91m' + ' (Unbegrenzter Modus)' + '\033[0m')
         x_a = int(x_a) - 1  # verringere den Input um 1 um ihn auf Listen anwenden zu können
@@ -169,10 +177,8 @@ def main():
                         else:  # führe aus, wenn nicht am oberen Rand:
                             spiel[l][m] = spiel[l - 1][m]  # gib der aktuellen Zahl den Wert der oberen
                             spiel[l - 1][m] = 0  # setze den Wert der oberen Zahl auf 0
-        wl = 0  # setze wl = 0
         if load_game == 'l':  # wenn ein Spielstand geladen werden soll:
             try:  # versuche den gespeicherten Wert für "ok" zu laden
-                global ok
                 with open(dateiname) as f:
                     daten = json.load(f)
                     ok = daten['ok']
