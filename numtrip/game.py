@@ -44,30 +44,6 @@ def möglich():
             break
 
 
-möglich()
-while poss_move == False:
-    spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
-             for i in range(5)]  # generiere das anfängliche Spielfeld
-    möglich()
-
-load_game = input(
-    '[?] Willst du die vorherige Sitzung laden oder ein neues Spiel anfangen? (Laden: L; Neues Spiel: N) ').lower()  # frage ob ein altes Spiel geladen werden soll
-while load_game != 'l' and load_game != 'n':
-    load_game = input(
-        '[?] Willst du die vorherige Sitzung laden oder ein neues Spiel anfangen? (Laden: L; Neues Spiel: N) ')  # frage erneut, wenn die eingabe nicht den möglichen Antwortmöglichkeiten entspricht
-if load_game == 'l':
-    try:
-        with open(dateiname) as f:
-            daten = json.load(f)
-            spiel = daten['spiel']  # lade eine vorhandene Spieldatei wenn "l" ausgewählt wurde
-    except:
-        # Wenn keine Spieldatei vorhanden ist, informiere den Spieler und generiere ein neues Spiel
-        print('[!] Da leider kein gespeichertes Spiel gefunden wurde, wurde ein neues erstellt.')
-print('\n' + '\033[33m' + '════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n' + '\033[96m' +
-      f'Willkommen zu Numtrip! Klicke auf eine Zahl um alle anliegenden, gleichen Zahlen auf diesen Block zusammenzufassen.\nDabei wird der Wert der angeklickten Zahl verdoppelt. Es werden ständig neue Zahlen kommen, sobald du einige zusammenfasst. \nVersuche die Zahl {WIN_NUM} zu erreichen, oder spiele danach im unbegrenzten Modus weiter.\nDas Spiel speichert automatisch nach jeder Eingabe und kann jederzeit beendet und fortgesetzt werden.\nViel Glück!\n-GPTDSM' + '\033[33m' + '\n\n════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n')
-# drucke dem Spiler einige Informationen aus, bevor er das Spiel startet
-
-
 def field_print():  # Definition für die Ausgabe des Spielfeldes
     global daten
     for i in range(5):  # führe für jede Zeile aus:
@@ -105,6 +81,73 @@ def field_print():  # Definition für die Ausgabe des Spielfeldes
         for h in range(5):
             if WIN_NUM in spiel[h]:
                 loss = False
+        daten['poss_move'] = poss_move
+        daten['loss'] = loss
+        with open(dateiname, 'w') as f:
+            json.dump(daten, f)
+
+
+möglich()
+while poss_move == False:
+    spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
+             for i in range(5)]  # generiere das anfängliche Spielfeld
+    möglich()
+
+load_game = input('\033[91m' +
+                  '[?] Willst du die vorherige Sitzung laden oder ein neues Spiel anfangen? (Laden: L; Neues Spiel: N) ' + '\033[0m').lower()  # frage ob ein altes Spiel geladen werden soll
+while load_game != 'l' and load_game != 'n':
+    load_game = input('\033[91m'
+                      '[?] Willst du die vorherige Sitzung laden oder ein neues Spiel anfangen? (Laden: L; Neues Spiel: N) ' + '\033[0m')  # frage erneut, wenn die eingabe nicht den möglichen Antwortmöglichkeiten entspricht
+if load_game == 'l':
+    try:
+        with open(dateiname) as f:
+            daten = json.load(f)
+            spiel = daten['spiel']  # lade eine vorhandene Spieldatei wenn "l" ausgewählt wurde
+    except:
+        # Wenn keine Spieldatei vorhanden ist, informiere den Spieler und generiere ein neues Spiel
+        print('[!] Da leider kein gespeichertes Spiel gefunden wurde, wurde ein neues erstellt.')
+        load_game = 'n'
+if load_game == 'l':
+    try:
+        with open(dateiname) as f:
+            loss = daten['loss']
+    except:
+        loss = False
+    try:
+        with open(dateiname) as f:
+            poss_move = daten['poss_move']
+    except:
+        poss_move = True
+    if poss_move == False and loss == True:
+        field_print()
+        print('\n' + '\033[33m' + '════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n' + '\033[96m' +
+              f'Willkommen zurück Spieler!\nDas geladene Spiel kann leider nicht fortgeführt werden. Da du die erforderliche Punktzahl nicht erreicht hast, hast du es verloren.\nÜber dieser Nachricht ist aber noch das Spielfeld der vergangenen Runde.\nDarunter wurde ein neues Spiel erstellt.' + '\033[33m' + '\n\n════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n')
+        spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
+                 for i in range(5)]  # generiere das anfängliche Spielfeld
+        möglich()
+        while poss_move == False:
+            spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
+                     for i in range(5)]  # generiere das anfängliche Spielfeld
+            möglich()
+    elif poss_move == False and loss == False:
+        field_print()
+        print('\n' + '\033[33m' + '════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n' + '\033[96m' +
+              f'Willkommen zurück Spieler!\nDas geladene Spiel kann leider nicht fortgeführt werden. Da du aber die erforderliche Punktzahl erreicht hast, hast du es gewonnen.\nÜber dieser Nachricht ist aber noch das Spielfeld der vergangenen Runde.\nDarunter wurde ein neues Spiel erstellt.' + '\033[33m' + '\n\n════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n')
+        spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
+                 for i in range(5)]  # generiere das anfängliche Spielfeld
+        möglich()
+        while poss_move == False:
+            spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
+                     for i in range(5)]  # generiere das anfängliche Spielfeld
+            möglich()
+    else:
+        print('\n' + '\033[33m' + '════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n' + '\033[96m' +
+              f'Willkommen zurück Spieler!\nVersuche die Zahl {WIN_NUM} zu erreichen, oder, wenn du das schon geschafft hast, spiele im unbegrenzten Modus weiter.\nDas Spiel speichert automatisch nach jeder Eingabe und kann jederzeit beendet und fortgesetzt werden.\nViel Glück!\n-GPTDSM' + '\033[33m' + '\n\n════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n')
+
+if load_game == 'n':
+    print('\n' + '\033[33m' + '════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n\n' + '\033[96m' +
+          f'Willkommen zu Numtrip! Klicke auf eine Zahl um alle anliegenden, gleichen Zahlen auf diesen Block zusammenzufassen.\nDabei wird der Wert der angeklickten Zahl verdoppelt. Es werden ständig neue Zahlen kommen, sobald du einige zusammenfasst. \nVersuche die Zahl {WIN_NUM} zu erreichen, oder spiele danach im unbegrenzten Modus weiter.\nDas Spiel speichert automatisch nach jeder Eingabe und kann jederzeit beendet und fortgesetzt werden.\nViel Glück!\n-GPTDSM' + '\033[33m' + '\n\n════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════\n')
+    # drucke dem Spiler einige Informationen aus, bevor er das Spiel startet
 
 
 field_print()  # rufe die Definition zur Ausgabe des Spielfeldes auf
