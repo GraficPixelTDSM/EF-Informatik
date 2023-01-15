@@ -14,6 +14,41 @@ anzeige = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0]]  # sage, dass "anzeige" mit "0" gefüllt ist
 check = [[], []]  # sage, dass "check" eine Liste ist, mit zwei leeren Listen darin
 #check= [[y], [x]]
+loss = False
+
+
+def möglich():
+    global poss_move
+    poss_move = False
+    for my in range(5):
+        for mx in range(5):
+            if my > 0:
+                if spiel[my][mx] == spiel[my - 1][mx]:
+                    poss_move = True
+                    return poss_move
+            if my < 4:
+                if spiel[my][mx] == spiel[my + 1][mx]:
+                    poss_move = True
+                    return poss_move
+            if mx > 0:
+                if spiel[my][mx] == spiel[my][mx - 1]:
+                    poss_move = True
+                    return poss_move
+            if mx < 4:
+                if spiel[my][mx] == spiel[my][mx + 1]:
+                    poss_move = True
+                    return poss_move
+            if poss_move == True:
+                break
+        if poss_move == True:
+            break
+
+
+möglich()
+while poss_move == False:
+    spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
+             for i in range(5)]  # generiere das anfängliche Spielfeld
+    möglich()
 
 load_game = input(
     '[?] Willst du die vorherige Sitzung laden oder ein neues Spiel anfangen? (Laden: L; Neues Spiel: N) ').lower()  # frage ob ein altes Spiel geladen werden soll
@@ -57,9 +92,19 @@ def field_print():  # Definition für die Ausgabe des Spielfeldes
         if i < 4:
             print(" ╟──────┼──────┼──────┼──────┼──────╢")
     print(" ╚══════╧══════╧══════╧══════╧══════╝")  # Drucke den Spielfeldabschluss nach dem Drucken aller Zeilen aus
+
     daten['spiel'] = spiel  # speichere die Daten von "spiel" in der Datensammlung als "spiel"
     with open(dateiname, 'w') as f:  # öffne die Datensammlung "numtrip_safe.json" und erhalte mit "w" die Schreiberlaubnis
         json.dump(daten, f)  # <- Speichere den Wert "spiel"
+    möglich()
+    if poss_move == False:
+        global Game_Over
+        global loss
+        Game_Over = True
+        loss = True
+        for h in range(5):
+            if WIN_NUM in spiel[h]:
+                loss = False
 
 
 field_print()  # rufe die Definition zur Ausgabe des Spielfeldes auf
@@ -195,26 +240,36 @@ def main():
 
 main()
 if Game_Over == True:  # führe aus, wenn das Spiel vorbei ist:
-    weiter = input(
-        '\033[93m' + f'[?] Gratulation! Du hast ein Feld auf die erforderliche Punktzahl von {WIN_NUM} gebracht.\nWillst du im unbegrenzten Modus weiterspielen? (j/n)\n' + '\033[0m')
-    # frage wie der Spieler fortfahren will
-    weiter = weiter.lower()  # die Eingabe wird in Kleinbuchsteben gesetzt
-    while weiter != 'ja' and weiter != 'j' and weiter != 'y' and weiter != 'yes' and weiter != 'nein' and weiter != 'n' and weiter != 'no':
-        # solange keine Antwort gültig ist, frage nochmal
-        print('\033[91m' + "[!] Bitte gib eine gültige Antwort ein! (Gültige Antworten: 'j', 'ja', 'y', 'yes', 'n', 'nein', 'no')" + '\033[0m')
+    if poss_move == True:
         weiter = input(
             '\033[93m' + f'[?] Gratulation! Du hast ein Feld auf die erforderliche Punktzahl von {WIN_NUM} gebracht.\nWillst du im unbegrenzten Modus weiterspielen? (j/n)\n' + '\033[0m')
-        weiter = weiter.lower()
+        # frage wie der Spieler fortfahren will
+        weiter = weiter.lower()  # die Eingabe wird in Kleinbuchsteben gesetzt
+        while weiter != 'ja' and weiter != 'j' and weiter != 'y' and weiter != 'yes' and weiter != 'nein' and weiter != 'n' and weiter != 'no':
+            # solange keine Antwort gültig ist, frage nochmal
+            print('\033[91m' + "[!] Bitte gib eine gültige Antwort ein! (Gültige Antworten: 'j', 'ja', 'y', 'yes', 'n', 'nein', 'no')" + '\033[0m')
+            weiter = input(
+                '\033[93m' + f'[?] Gratulation! Du hast ein Feld auf die erforderliche Punktzahl von {WIN_NUM} gebracht.\nWillst du im unbegrenzten Modus weiterspielen? (j/n)\n' + '\033[0m')
+            weiter = weiter.lower()
 
-    if weiter == 'ja' or weiter == 'j' or weiter == 'y' or weiter == 'yes':  # wenn weitergespielt werden soll:
-        ok = 1  # setze "ok" = 1, was dazu führt, dass die Wincondition nicht mehr geprüft wird
-        daten['ok'] = ok  # speichere "ok", damit die Wincondition nicht mehr geprüft wird, wenn ein Spiel geladen wird
-        with open(dateiname, 'w') as f:
-            json.dump(daten, f)
-        main()  # "main()" wird "Game_Over" = False setzen und nie mehr auf True setzen, was den Modus unbegrenzt macht
-    elif weiter == 'nein' or weiter == 'n' or weiter == 'no':  # wenn nicht weitergespielt werden soll:
-        Game_Over = True  # setze "Game_Over" zur Sicherheit nochmals auf True
-        # Drucke finale Nachricht aus und rufe "main()" nicht mehr auf
-        print('\033[94m' + "\n[!] Danke für's Spielen von Numtrip.\n-GPTDSM\n" + '\033[0m')
-# TDSM
+        if weiter == 'ja' or weiter == 'j' or weiter == 'y' or weiter == 'yes':  # wenn weitergespielt werden soll:
+            ok = 1  # setze "ok" = 1, was dazu führt, dass die Wincondition nicht mehr geprüft wird
+            daten['ok'] = ok  # speichere "ok", damit die Wincondition nicht mehr geprüft wird, wenn ein Spiel geladen wird
+            with open(dateiname, 'w') as f:
+                json.dump(daten, f)
+            main()  # "main()" wird "Game_Over" = False setzen und nie mehr auf True setzen, was den Modus unbegrenzt macht
+        elif weiter == 'nein' or weiter == 'n' or weiter == 'no':  # wenn nicht weitergespielt werden soll:
+            Game_Over = True  # setze "Game_Over" zur Sicherheit nochmals auf True
+            # Drucke finale Nachricht aus und rufe "main()" nicht mehr auf
+            print('\033[94m' + "\n[!] Danke für's Spielen von Numtrip.\n-GPTDSM\n" + '\033[0m')
+    if poss_move == False:
+        print(
+            '\033[93m' + f'[!] Das Spiel ist in diesem Zustand leider nicht mehr fortführbar.' + '\033[0m')
+        if loss == False:
+            print(
+                '\033[93m' + f"Du hast aber die erforderliche Punktzahl von {WIN_NUM} erreicht. Das Heisst, du gewinnst das Spiel.\nDanke für's Spielen von Numtrip.\n-GPTDSM\n" + '\033[0m')
+        if loss == True:
+            print(
+                '\033[93m' + f"Du hast die erforderliche Punktzahl von {WIN_NUM} nicht erreicht. Das Heisst, du verlierst das Spiel.\nDanke für's Spielen von Numtrip.\n-GPTDSM\n" + '\033[0m')
+# GPTDSM
 # ANSI Code '\033[X;XXm' for Color: https://gist.github.com/Prakasaka/219fe5695beeb4d6311583e79933a009
