@@ -1,8 +1,8 @@
 from random import randint
 from math import log
 import json  # Importiert "randint", "log" und "json"
-MAX_POTENZ_START = 2  # Setzt die maximale Potenz der Zahlen die (anfänglich) generiert werden fest
-MAX_POTENZ_VAR = 2  # Setzt die maximale Potenz der Zahlen die (neu) generiert werden fest
+MAX_POTENZ_START = 3  # Setzt die maximale Potenz der Zahlen die (anfänglich) generiert werden fest
+MAX_POTENZ_VAR = 3  # Setzt die maximale Potenz der Zahlen die (neu) generiert werden fest
 WIN_NUM = 128  # Setzt die zu erreichende Zahl fest um das Spiel zu gewinnen
 Game_Over = False
 loss = False
@@ -50,7 +50,7 @@ def field_print():  # Definition für die Ausgabe des Spielfeldes
         for j in range(5):  # Wiederholt für jede Spalte:
             global spiel
             # Setzt die Zahl in "spiel[i][j]" in "anzeige[i][j]" ein und füge genügend Leerschläge zu "anzeige[i][j]" ein um ein schönes Spielfeld beizubehalten
-            for k in range(4):
+            for k in range(5):
                 if spiel[i][j] < 10**k:
                     k = 4 - k  # Je nach dem wie viele Stellen die Zahl hat, wird eine unterschiedliche Anzahl an Leerschlägen eingefügt
                     anzeige[i][j] = k * " " + f'{spiel[i][j]}'
@@ -78,8 +78,14 @@ def field_print():  # Definition für die Ausgabe des Spielfeldes
         global loss
         Game_Over = True  # Setz "Game_Over" auf 'True', da das Spiel vorbei ist, wenn keine Züge mehr möglich sind
         loss = True  # Setzt "loss" auf 'True'
+        high = 0  # Setzt "high" = '0'
+        for q in range(5):  # Wiederholt für jede Zeile
+            for w in range(5):  # Wiederholt für jede Spalte
+                if spiel[q][w] > high:  # Wenn die aktuelle Zahl grösser als die vorher grösste Zahl ist:
+                    high = spiel[q][w]  # Setzt die grösste Zahl = der aktuellen Zahl
         for h in range(5):  # Wiederholt für jede Zeile:
-            if WIN_NUM in spiel[h]:  # Wenn die Gewinnzahl (128) in einer Zeile ist:
+            # Wenn die Gewinnzahl (128) in einer Zeile ist, oder die höchste Zahl grösser als die Gewinnzahl ist:
+            if WIN_NUM in spiel[h] or high > WIN_NUM:
                 loss = False  # Setzt "loss" auf 'False', da man trotzdem gewonnen hat, obwohl man keine Züge mehr hat
         daten['poss_move'] = poss_move  # Setzt "poss_move" in die Datensammlung unter dem Namen "poss_move" ein
         daten['loss'] = loss  # Setzt "loss" in die Datensammlung unter dem Namen "loss" ein
@@ -316,9 +322,14 @@ if Game_Over == True:  # Wird ausgeführt, wenn das Spiel vorbei ist:
         print(
             '\033[93m' + f'[!] Das Spiel ist in diesem Zustand leider nicht mehr fortführbar.' + '\033[0m')
         # Benachrichtigt, dass kein Zug mehr möglich ist
+        high = 0  # Setzt "high" = '0'
+        for q in range(5):  # Wiederholt für jede Zeile
+            for w in range(5):  # Wiederholt für jede Spalte
+                if spiel[q][w] > high:  # Wenn die aktuelle Zahl grösser als die vorher grösste Zahl ist:
+                    high = spiel[q][w]  # Setzt die grösste Zahl = der aktuellen Zahl
         if loss == False:
             print(
-                '\033[93m' + f"Du hast aber die erforderliche Punktzahl von {WIN_NUM} erreicht. Das Heisst, du gewinnst das Spiel.\nDanke für's Spielen von Numtrip.\n-GPTDSM\n" + '\033[0m')
+                '\033[93m' + f"Du hast aber die erforderliche Punktzahl von {high} erreicht. Das Heisst, du gewinnst das Spiel.\nDanke für's Spielen von Numtrip.\n-GPTDSM\n" + '\033[0m')
             # Wenn die Siegbedingung erfüllt ist, informiere den Spieler
         if loss == True:
             print(
