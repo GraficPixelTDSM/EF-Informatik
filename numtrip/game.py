@@ -329,7 +329,7 @@ if Game_Over == True:  # Wird ausgeführt, wenn das Spiel vorbei ist:
                     high = spiel[q][w]  # Setzt die grösste Zahl = der aktuellen Zahl
         if loss == False:
             print(
-                '\033[93m' + f"Du hast aber die erforderliche Punktzahl von {high} erreicht. Das Heisst, du gewinnst das Spiel.\nDanke für's Spielen von Numtrip.\n-GPTDSM\n" + '\033[0m')
+                '\033[93m' + f"Du hast aber eine Punktzahl von {high} erreicht. Das Heisst, du gewinnst das Spiel.\nDanke für's Spielen von Numtrip.\n-GPTDSM\n" + '\033[0m')
             # Wenn die Siegbedingung erfüllt ist, informiere den Spieler
         if loss == True:
             print(
