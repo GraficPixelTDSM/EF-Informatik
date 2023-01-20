@@ -12,14 +12,18 @@ Das Spiel wurde mit Python 3.10.6 geschrieben, d.h. kann man sich sicher sein, d
 Es braucht also einen Code-Editor bzw. -Runner mit Python 3.10.6.  
 ## Wie funktioniert das Erkennen gleicher Zahlen in Nachbarfeldern?
 Zuerst muss man ein Feld auswählen, von welchem der Algorithmus starten soll. Dessen Koordinate wird an die Liste 'check' angehängt.  
-Dann vergleicht das Spiel die Zahl bei der ausgewählten Koordinate (x, y), mit der Zahl, der Koordinate links / rechts / darüber / darunter (x - 1, y) / (x + 1, y) / (x, y + 1) / (x, y - 1).  
-`anz1 = int(anzeige[y][x - 1].strip())`  
-`anz2 = int(anzeige[y][x].strip())`  
-`if anz2 == anz1:`  
+Dann vergleicht das Spiel die Zahl bei der ausgewählten Koordinate (x, y), mit der Zahl, der Koordinate links / rechts / darüber / darunter `(x - 1, y)` / `(x + 1, y)` / `(x, y + 1)` / `(x, y - 1)`.  
+```py
+anz1 = int(anzeige[y][x - 1].strip())  
+anz2 = int(anzeige[y][x].strip())  
+if anz2 == anz1:  
+```
 Wenn das der Fall ist und die Zahl nicht == 0 ist, wird die Koordinate zu 'check' hinzugefügt und die Zahl = 0 gesetzt, damit sie nicht noch einmal geprüft wird und es zu einem loop kommt.  
-`check[0].append(x + 1)`  
-`check[1].append(y + 2)`  
-`spiel[y + 1][x] = 0`  
+```py
+    check[0].append(x + 1)
+    check[1].append(y + 2)
+    spiel[y + 1][x] = 0
+```
 Das wird dann auch für  
 `anz1 = int(anzeige[y][x + 1].strip())`,  
 `anz1 = int(anzeige[y - 1][x].strip())` und  
