@@ -93,6 +93,23 @@ def field_print():  # Definition für die Ausgabe des Spielfeldes
             json.dump(daten, f)
 
 
+def juanVladimirputa(x: int, y: int) -> bool:  # Prüft, ob Feld ausgewählt werden kann
+    if y > 0:  # Wenn die Zahl darüber,
+        if spiel[y][x] == spiel[y - 1][x]:
+            return True
+    if y < 4:  # darunter,
+        if spiel[y][x] == spiel[y + 1][x]:
+            return True
+    if x > 0:  # links davon
+        if spiel[y][x] == spiel[y][x - 1]:
+            return True
+    if x < 4:  # RECHTS
+        if spiel[y][x] == spiel[y][x + 1]:
+            return True
+
+    return False
+
+
 möglich()  # Ruft die Definition zur Prüfung der möglichen Züge
 while poss_move == False:  # Während kien Zug möglich ist:
     spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
@@ -178,16 +195,28 @@ def main():  # Definiert die Hauptschleife
         global x_a
         global y_a
         global ok
-        x_a = input('[?] Welche Position auf der X-Achse willst du auswählen? ')  # Es wird nach einer Eingabe gefragt
-        while check_num_input(x_a) is False:
-            # Die Frage wird erneut gestellt, wenn die Prüfung "False" zurückgibt
+
+        # Prüft, ob Feld ausgewählt werden kann
+        feld_moeglich = False
+        while not feld_moeglich:
+            # Es wird nach einer Eingabe gefragt
             x_a = input('[?] Welche Position auf der X-Achse willst du auswählen? ')
-        check[0].append(x_a)  # Fügt die Eingabe zu den zu prüfenden Koordinaten an
-        y_a = input('[?] Welche Position auf der Y-Achse willst du auswählen? ')  # Es wird nach einer Eingabe gefragt
-        while check_num_input(y_a) is False:
-            # Die Frage wird erneut gestellt, wenn die Prüfung "False" zurückgibt
+            while check_num_input(x_a) is False:
+                # Die Frage wird erneut gestellt, wenn die Prüfung "False" zurückgibt
+                x_a = input('[?] Welche Position auf der X-Achse willst du auswählen? ')
+            check[0].append(x_a)  # Fügt die Eingabe zu den zu prüfenden Koordinaten an
+            # Es wird nach einer Eingabe gefragt
             y_a = input('[?] Welche Position auf der Y-Achse willst du auswählen? ')
-        check[1].append(y_a)  # Fügt die Eingabe zu den zu prüfenden Koordinaten an
+            while check_num_input(y_a) is False:
+                # Die Frage wird erneut gestellt, wenn die Prüfung "False" zurückgibt
+                y_a = input('[?] Welche Position auf der Y-Achse willst du auswählen? ')
+            check[1].append(y_a)  # Fügt die Eingabe zu den zu prüfenden Koordinaten an
+
+            feld_moeglich = (True if juanVladimirputa(int(x_a) - 1, int(y_a) - 1) else False)
+
+            if not feld_moeglich:
+                print("Keck, wähle ein Feld aus, welches man auswählen kann!!!!")
+
         if load_game == 'l':  # Wenn ein Spielstand geladen werden soll:
             try:  # Versucht den gespeicherten Wert für "ok" zu laden
                 with open(dateiname) as f:
