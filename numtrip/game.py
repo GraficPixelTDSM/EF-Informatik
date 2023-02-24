@@ -9,8 +9,7 @@ loss = False
 ok = 0  # Setzt einige Werte für Variabeln fest
 dateiname = 'numtrip_safe.json'  # Setzt den Namen der Speicherdatei fest. Gespeichert: "spiel", "ok", "poss_move", "loss"
 daten = {}  # Sagt, dass "daten" eine Datensammlung ist
-spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]
-         for i in range(5)]  # Generiert das anfängliche Spielfeld
+spiel = [[(2**(randint(1, MAX_POTENZ_START + 1))) for i in range(5)]for i in range(5)]  # Generiert das anfängliche Spielfeld
 anzeige = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0],
            [0, 0, 0, 0, 0]]  # Sagt, dass "anzeige" mit '0' gefüllt ist
 check = [[], []]  # Sagt, dass "check" eine Liste ist, mit zwei leeren Listen darin
