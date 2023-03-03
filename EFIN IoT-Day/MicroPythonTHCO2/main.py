@@ -11,16 +11,16 @@ display = ssd1306.SSD1306_I2C(64, 48, i2c)
 ens160 = ENS160(i2c, temperature=22, humidity=35)   # Initialise the ENS160 module
 # temp. and humidity sensor
 aht21 = aht.AHT2x(i2c, crc=True)
-
-display.fill(0)
-display.text('Loading...', 0, 0, 1)
-display.show()
-time.sleep(3)
+for i in range(3):
+    display.fill(0)
+    display.text(f'((({3-i})))', 0, 0, 1)
+    display.show()
+    time.sleep(1)
 second = 0
 minute = 0
 hour = 0
+
 while True:
-    Z1 = time.time()
     # Read from the sensor
     aqi = ens160.aqi
     tvoc = ens160.tvoc
@@ -51,5 +51,4 @@ while True:
     display.text(f'{eco2.value}ppm', 0, 30, 1)
     display.text(f'{hour}:{minute}:{second}', 0, 40, 1)
     display.show()
-
-    time.sleep(1 - Z1)
+    time.sleep(0.8354444444444444)
