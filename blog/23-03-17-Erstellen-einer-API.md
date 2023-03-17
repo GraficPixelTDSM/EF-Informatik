@@ -27,4 +27,5 @@ Der `http request`-Block ist ein !ACHTUNG! ![](./images/http.png)Block. Dieser s
 ![](./images/http_set.png)  
 Als URL sollte jedoch die eigene URL eingesetzt werden.  
 Zuletzt haben wir noch den `Statuscode`-Block. Dabei handelt es sich um einen ![](./images/debug.png)Block. Dieser gibt den Statuscode `200` in der Debug-Konsole aus, wenn der Keep alive Flow erfolgreich ausgeführt wurde. Dafür müssen die Einstellungen aber wie folgt aussehen:  
-![](./images/debug_set.png)
+![](./images/debug_set.png)  
+Somit haben wir eine API erstellt, aber was können wir sonst noch tun?
