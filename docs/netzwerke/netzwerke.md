@@ -78,3 +78,63 @@ Wenn aber zwei private Netzwerke miteinander kommunizieren wollen, braucht es ei
 Diese Übersetzung wird Network Address Translation (NAT) genannt und sit in allen Routern für Heimnetzwerke eingebaut.  
 
 ## Schichtenmodell
+Jede Schicht hat ihren eigenen Nutzen. Nur wenn alle Schichten funktionieren, kann ein Host Daten teilen.  
+![](./images/schichtenmodel.png)
+### Ebene 1 - Physisch
+    - Ziel: Bits transportieren
+    - Daten existieren (in Form von einsen und nullen)  
+    - Ein Transportmedium existiert  
+    - E1 Technologie: Kabel, WLAN, Verstärker, Hub  
+### Ebene 2 - Datenverbindung  
+    - Ziel: Verbindung von NIC_1 zu NIC_2 erstellen  
+    - Interagiert mit E1 (mit dem Kabel)  
+    - Adressierungsschema: MAC-Adressen  
+        - 48 Bits, als 12 Hexadezimale Zahlen  
+        - Jede NIC hat eine eigene MAC-Adresse  
+        - Dient nur dazu, ein Paket von z.B. Switch zu Switch zu schicken
+    - E2 Technologie: NIC - Network Interface Card, Wi-Fi Access Card, Switch  
+### Ebene 3 - Netzwerk
+    - Ziel: Ende-zu-Ende transport der Daten
+    - Interagiert mit E2 (mit der Switch)
+    - Adressierungsschema: IP-Adressen
+        - Dient dazu, eine Paket von z.B. PC zu PC zu schicken
+    - E3 Technologie: Router, Host
+### Ebene 4 - Transport
+    - Ziel: Datenströme unterscheiden, sodass jedes Programm die richtigen Daten erhält
+    - Interagiert mit E3 (mit dem PC)
+    - Adressierungsschema: Ports
+        - `0-65535` - TCP -> Schwerpunkt auf Zuverlässigkeit
+        - `0-65535` - UDP -> Schwerpunkt auf Effizienz
+        - Es handelt sich bei TCP und UDP um andere Strategien zur Datenverarbeitung
+    - Beim Schicken einer Nachricht wird eine Quelle und ein Empfänger angegeben. Die Quelle besteht aus der Quell-IP und einem zufällig ausgewählten Port (`1.1.1.1:9999`). Der Empfänger besteht aus der Empfänger-IP und einem dort zugewiesenen Port (3.3.3.3:80).
+    - Antwortet der Empfänger auf die Nachricht ist die Quell-IP gleich die vorherige Empfänger-IP (3.3.3.3:80) und die neue Empfänger-IP gleich die vorherige Quell-IP (1.1.1.1:9999)
+    - Beim Kommunizieren mit einem anderen Server, kann der Client zwar auf den selben Port senden, muss dies aber mit einem anderen Quell-Port tun.
+    - Eine Kommunikationslog könnte so aussehen (Protokoll, IP:Port, IP:Port):  
+    ```
+    TCP 1.1.1.1:6666 <-> 3.3.3.3:80
+    UDP 1.1.1.1:9999 <-> 3.3.3.3:80
+    TCP 1.1.1.1:5555 <-> 2.2.2.2:80
+    ```  
+    - Für jeden neu geöffneten Tab (zum gleichen Server), wird je ein neuer Quell-Port zugewiesen
+### Ebene 5 - Sitzung
+    - Ebene 5, 6 & 7 werden manchmal auch als eine Ebene zusammengefasst (TCP/IP-Modell)
+    - 
+### Ebene 6 - Präsentation
+    - 
+### Ebene 7 - Anwendung
+    - 
+### Schichtenmodell - Senden und Empfangen
+Eine Anwendung generiert Daten. Diese werden an E4 weitergeleitet. Dort wird ein Header mit Protokoll, Quell- und Ziel-Port hinzugefügt ([Protokoll, Quell-Port, Ziel-Port], [Daten]). Dieses Datenpaket wird Segment genannt. Dieses Datenpaket wird zu E3 weitergeleitet, wo die Quell- und Ziel-IP hinzugefügt wird ([Protokoll, Quell-IP, Ziel-IP], [Quell-Port, Ziel-Port], [Daten]). Aus der Sicht der E3 sind die in E4 angehängten Port-Daten unnachvollziehbar. Dieses Datenpaket wird Packet genannt. Das Datenpaket wird nun weitergeleitet an E2. Dort wird ein weiterer Header angefügt, der die MAC-Adresse der nächsten Switch enthält. Bei jeder Switch wird die MAC-Adresse entfernt und aktualisiert, damit sie der nächsten Switch entspricht ([Quell-MAC-Adresse, Ziel-MAC-Adresse], [Protokoll, Quell-IP, Ziel-IP], [Quell-Port, Ziel-Port], [Daten]). Dieses Datenpaket wird Frame genannt. Anschliessend wird es über die E1 in einsen und nullen umgewandelt und über ein Medium übertragen.  
+![](./images/osipaket.png)  
+Beim Empfänger passiert das genaue Gegenteil.  
+Der Prozess beim Senden wird "Encapsulation" also Kapselung genannt. Der Prozess beim Erhalten wird "De-Encapsulation" also Entkapselung genannt.  
+![](./images/osinetzwerk.png)  
+![](./images/osizusammenfassung.png)  
+Das Schichtenmodell ist keine Regel, sondern eher ein Vorschlag.  
+
+## Was der Host macht um mit dem Internet zu sprechen
+### Szenario 1 - Host 1 ist direkt mit Host 2 verbunden
+Beide Hosts haben eine NIC und somit eine MAC-Adresse. Sie haben beide auch eine IP-Adresse und eine Subnetzmaske. Host A will Daten zu Host B schicken. Host A kennt die IP-Adresse von Host B. Die IP war entweder schon vorher bekannt, oder sie wurde durch die DNS beim Aufrufen eines Links in eine IP umgewandelt.
+
+### Szenario 2 - Host 1 ist inirekt über eine Switch mit Host 2 verbunden
+
