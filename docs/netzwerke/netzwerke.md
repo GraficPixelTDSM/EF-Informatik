@@ -3,7 +3,13 @@
 ## Netzwerkgeräte
 
 ### Host
-Der Host ist ein Gerät, das Daten über das Internet verschickt oder empfängt
+Der Host ist ein Gerät, das Daten über das Internet verschickt oder empfängt.
+Folgende vier Dinge müssen jedes Mal bei einem Host konfiguriert werden, wenn er sich mit einem Netzwerk verbindet:  
+- IP-Adresse		-	Identität im Internet
+- Subnetzmaske		-	Grösse des Netzwerkes des Hosts
+- Standart Gateway	-	Die IP-Adresse des Routers
+- DNS Server IP(s)	-	Die IP-Adresse eines DNS Servers, der Domains in IP-Adressen umwandeln kann
+
 ### IP-Adresse
 Die IP-Adresse ist eine Zahl mit der man ein Gerät in einem Netzwerk identifizieren kann. In unserem Beispiel hat die Firma ACME, inc. die IP-Adresse 10.x.x.x reserviert. Die weiteren Zahlen, wie die zweite, werden dann durch Faktoren wie Ort (New York: 20, London: 30, Tokyo: 40). Desweiteren kann die nächste Stelle der IP-Adresse einzelnen Gruppen in der Firma entsprechen. Die Zahl für die Gruppe kann unter allen Orten gleich sein, aber das macht nichts, da die Ortszahl unterschiedlich ist. Zuletzt kann man noch die letzte Zahl einem Gerät zuordnen, um dieses genau zu bestimmen.  
 ![](./images/ipaddress.png)  
@@ -207,3 +213,110 @@ Eigentliche Nachricht
 Ein vom Sender berechneter Wert aus dem Datenpaket. Der Empfänger wird mit dem gleichen Verfahren einen Wert aus dem Datenpaket berechnen. Der berechnete und der mitgesendete Wert werden verglichen. Dies dient der Überprüfung, ob die Daten richtig übertragen wurden. Stimmen sie überein, müsste das erhaltene Datenpaket, dem gesendeten entsprechen. Als Frame Prüfsumme kann z.B. ein Hash von den Nutzdaten gemacht werden.  
 
 In einem WLAN ist der Prozess relativ gleich, jedoch kommen noch einige WLAN-spezifische Daten hinzu.  
+## Routers
+Wenn ein Gerät mit einem anderen, im gleichen Netzwerk kommunizieren will, können sie dies über eine Switch tun. Für die Kommunikation mit einem gerät in einem anderen Netzwerk wird ein Router benötigt. Diese haben auch eine MAC- und IP-Adresse für jedes Netzwerk mit dem sie verbundn sind. Diese IP- und MAC-Adresse kann in den verschiedenen Netzwerken für den gleichen Router unterschiedlich sein.  
+Ein Router wird vom folgenden Satz in `RFC 2460` definiert: "Ein Knoten (Knoten = Gerät, das IPv6 (/4) eingebaut hat), der IPv6 (/4) Pakete weiterleitet, die nicht explizit an ihn gerichtet sind." Im gelichen RFC wird auch der Host als "jeder Knoten, der kein Router ist" definiert.  
+Beispiel: Wenn ein Host ein Datenpaket erhält, das als Ziel-IP-Adresse nicht die des erhaltenden Hosts aufgeführt hat, wird der Host das Paket verwerfen. Ein Router andererseits, wird versuchen das Datenpaket trotzdem auszuliefern.  
+### Routing 
+Routing beschreibt den Prozess der Übertragung von Daten zwischen Netzwerken, welche grundsätzlich eine logische Anordnung von Hosts sind.  
+Ein Router ist ein gerät, dessen Hauptzweck das Routing ist.  
+### Routing Table
+Um eine Übersicht zu haben, müssen alle Router eine Karte der mit ihm verbundenen Netzwerke anlegen. Diese wird `Routing Table` genannt. In dieser Tabelle sind Einträge, die `Routs`, also Routen, genannt werden. Dabei handelt es sich um Instruktionen, wie bestimmte Netzwerke erreicht werden können.  
+Darin stehen dann Sachen wie:
+```
+Um das Netzwerk 10.0.55.x zu erreichen, sende Pakete über das Interface Links  
+Um das Netzwerk 10.0.44.x zu erreichen, sende Pakete über das Interface Rechts
+```  
+In einem echten `Routing Table` wird das dann aber ein bisschen technischer aussehen.  
+Wenn ein Router aber ein Paket erhält, dessen Ziel-IP-Adresse nicht im `Routing Table` vertreten ist, wird es das Paket verwerfen.  
+Es gibt drei Methoden, `Routing Tables` zu verbreiten:  
+#### Directly Connected - DC
+- Eine DC-Route existiert für jedes Netzwerk, das direkt an den Router angeschlossen ist. 
+- Im `Routing Table` wird dann folgendes stehen: `DC    10.0.55.x/24    Links`, o.ä.  
+#### Static Route - S
+- Eine S-Route muss manuell konfiguriert werden. 
+- Diese Methode wird verwendet, wenn mit einem Netzwerk zwar kommuniziert werden soll, dieses aber nicht mit dem aktuellen Router verbunden ist. Dabei wird als Interface die IP-Adresse des Routers angegeben, der sowohl mit dem Netzwerk verbunden ist, mit dem der aktuelle Router verbunden ist, als auch mit dem Ziel-Netzwerk verbunden ist.  
+- Das wird dann im `Routing Tabel` wie folgt aussehen: `Static    10.0.44.x/24    10.0.55.1`  
+#### Dynamic Routes - D
+- Eine D-Route wird im `Routing Table` gleich wie eine S-Route dargestellt
+- Einem Router kann der Befehl zum dynamischen routen gegeben werden, worauf er bei seinen Nachbarroutern nachfragt, welche Routen diese gespeichert haben. Das heisst, dass die Routen untereinander ausgetausch werden.  
+- Als kleines Beispiel wie das in einem `Routing Table` dargestellt wäre: `Dyn.    10.0.44.x/24    10.0.55.1`  
+- Um das dynamische Routen zu regulieren gibt es Protokolle. Die gängigsten sind: `RIP`, `OSPF`, `BGP`, `EIGRP` und `IS-IS`  
+
+Router haben auch eine ARP-Tabelle. Diese funktioniert genau so wie die vorher in `Switches` beschriebene ARP-Tabelle. Im gegensatz zu den Routing-Tabellen, starten ARP-Tabellen aber leer und erweitern sich dynamisch. Routing-Tabellen müssen aber vorher ausgefüllt sein. Das liegt daran, dass ARP-Tabellen erhaltene Daten, dessen Empfänger sie nicht kennen, an alle verbundenen schicken. Falls der Empfänger verbunden ist, geht also nichts verloren. Router andererseits, werden Daten, dessen Empfänger sie nicht kennen nicht einfach an alle schicken, sondern selbst verwerfen. Das heisst, dass auch wenn der Empfänger mit einem Router verbunden, aber er nicht in der Routing-Tabelle ist, die Daten nie bei ihm ankommen werden.  
+![](./images/3routers.png)  
+### Router-Hierarchie
+Es gibt einfache Gründe für eine Hierarchie. Darunter fallen:  
+- Das Vergrössern ist einfacher (Einfacher zu scalen)  
+- Geregeltere / stabilere Verbindungen  
+- Wenn die Router in einer Linie zueinander verbunden werden und dann zum Internet, kann ein einziger Ausfall zu einem Ausfall aller darunterliegenden Netzwerke führen. Desweiteren brauchen Daten von einem Router ganz am Ende der Kette länger um ans Ziel zu kommen (höherer Ping) als von einem Router ganz am Anfang.
+- Routen Summierung: Angenommen ein Router hat folgendes in der Routing-Tabelle:  
+```  
+10.20.55.0 /24  ->  R4
+10.20.66.0 /24  ->  R4
+10.20.77.0 /24  ->  R4
+```  
+Dann kann das alles in eine solche Routing-Tabelle vereinfacht werden:
+```
+10.20.0.0  /16  ->  R4
+```  
+Dabei kann sich sogar eine Tabelle die wie folgt aussieht:  
+```
+10.40.55.0 /24  ->  R5
+10.40.55.0 /24  ->  R5
+10.20.0.0  /16  ->  R5
+```
+In die folgende Tabelle verkürzen:  
+```
+10.0.0.0   /8   ->  R5
+```  
+Wenn wir jetzt aber ein Paket mit dem IP-Adressen-Ziel `10.40.77.x` an einem Router erhalten der die tabelle:  
+```
+10.40.77.0 /24  ->  DC
+10.0.0.0   /8   ->  R5
+```
+hat, muss der Router entscheiden, wohin er die Daten schickt. In diesem Fall wird er die Daten an den spezifischsten ort der Routing-Tabelle schicken (/24 ist spezifischer als /8).  
+Wenn die Daten aber an einen anderen Host ausserhalb des 10.0.0.0er Netzwerks gesendet werden sollen, also irgendwo anders im Internet, wird eine Standartroute mit der IP-Adresse 0.0.0.0 /0 verwendet (`0.0.0.0 -> R5` => "Für alles andere, nutze R5").  
+![](./images/routerhierarchie.png)  
+## RFC
+RFC steht für "Request for Comments". Dabei handelt es sich um Dokumente, die Internetstandarts definieren. RFC's sind grundsätzlich die Anleitungen, nach denen das Internet aufgebaut wurde. Wer also bei einer Diskusion über das Internet ein RFC vorweisen kann, hat sozusagen immer Recht.  
+RFC's sind öffentlich. Ein Gerätehersteller muss sich nur an die RFC's halten und dann kann z.B. ein PC von Dell mit einem iPhone kommunizieren.  
+## Protokolle
+Protokolle sind eine Reihe von Regeln und Nachrichten, die die Internetstandarts definieren.  
+Bei einer ARP-Anfrage z.B. musste vorher definiert werden, wie eine Nachricht aufgebaut sein sollte, wenn man eine Anfrage tätigt und wie die darauf folgende Antwort sein sollte. Im Fall von ARP, ist das im RFC 826 festgehalten.  
+Im Internet gibt es tausende und alle dienen einem gewissen Zweck.   
+### ARP
+- Adress Resolution Protocol
+- Kann mithilfe einer IP-Adresse des Ziels, dessen MAC-Adresse herausfinden.
+### FTP
+- File Transfer Protocol
+- Erlaubt einem Client und einem Server, sich gegenseitig Dateien zu senden und diese auch zu erhalten. 
+- Eine Konversation würde folgendermassen aussehen: Client: "RETR file.pdf", FTP Server: "file.pdf". In diesem Fall hätte der Client eine Datei angefordert und auch erhalten. 
+### SMTP
+- Simple Mail Transfer Protocol
+- Dieses Protokoll wird von E-Mail-Servern genutzt um E-Mails auszutauschen. 
+- Eine Konversation würde folgendermassen aussehen: Client: "HELO client.com", SMTP Server: "250 email.com". Ab diesem Zeitpunkt, können Client und Server E-Mails austauschen.
+### HTTP
+- Hyper Text Transfer Protocol
+- Dieses Protokoll wird verwendet, wenn man mit Web Servern kommuniziert. Diese hosten Webseiten, die in HTML (Hyper Text Markup Language) geschrieben sind. Diese HTML-Seiten werden mit HTTP ausgetauscht. 
+- Eine Konversation würde folgendermassen aussehen: Client: "GET /index.html", Web Server: "200 OK". Nach der "200 OK"-Nachricht, würde der Server die Webseite, nach der man gefragt hat, zur Verfügung stellen. 
+### SSL & TLS
+- Secure Sockets Layer & Transport Layer Security
+- Dient dazu, einen gesicherten Tunnel zwischen Client und Server herzustellen, über welchen dann Daten, mit HTTP, ausgetauscht werden können.
+### HTTPS
+- HTTP Secured
+- Es handelt sich um ein normales HTTP, das mit SSL / TLS gesichert ist. 
+### DNS
+- Domain Name System
+- Da Server nichts anderes als Computer sind, die ab und zu Software für die verschiedenen Protokolle enthalten, geschieht die Kommunikation zwischen Client und Server gleich, wie ziwschen Client und Client. Dafür braucht es aber eine IP-Adresse. Ein FTP-Server z.B. hat standartmässig eine IP-Adresse, ein Webserver hat aber aus unserer Sicht nur eine Domain. Hierfür ist das DNS da. Es übersetzt Domains in IP-Adressen. Dafür wird es einen DNS-Server verwenden. 
+- Eine Konversation würde folgendermassen aussehen: Client: "IP-Adresse für site.com?", DNS-Server: "site.com -> 160.8.23.154".
+- DNS hat aber auch noch andere Funktionen.
+### DHCP
+- Dynamic Host Configuration Protocol
+- DHCP konfiguriert einem Host die vier Elemente, die bei der Verbindung mit einem neuen Netzwerk nötig sind. Dazu gehört die IP-Adresse, eine Subnetzmaske, das Standartgateway und die IP-Adresse eines DNS-Servers. Das passiert jedes mal, wenn man sich mit einem WLAN verbindet. 
+- Eine Konversation würde folgendermassen aussehen: Client: "Discover", Server: "Offer".
+
+
+
+
+ 
