@@ -315,8 +315,3 @@ Im Internet gibt es tausende und alle dienen einem gewissen Zweck.
 - Dynamic Host Configuration Protocol
 - DHCP konfiguriert einem Host die vier Elemente, die bei der Verbindung mit einem neuen Netzwerk nötig sind. Dazu gehört die IP-Adresse, eine Subnetzmaske, das Standartgateway und die IP-Adresse eines DNS-Servers. Das passiert jedes mal, wenn man sich mit einem WLAN verbindet. 
 - Eine Konversation würde folgendermassen aussehen: Client: "Discover", Server: "Offer".
-
-
-
-
- 
