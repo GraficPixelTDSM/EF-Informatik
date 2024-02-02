@@ -28,7 +28,7 @@ def do_connect(wait=True):
 
     if not wlan.isconnected():
         # wlan.connect(<SSID>, <PSK>)
-        wlan.connect("EFIN", "efin-gbsl")
+        wlan.connect("ASYNC", "bv3hmyt3gn1cw")
         if not wait:
             return wlan
         wait_for_connection(wlan)
@@ -50,7 +50,7 @@ while True:
         print(f"Wifi connected")
         try:
             res = urequests.post(
-                "https://node-red-f3u9.onrender.com/proxy.gbsl.website/daten", json=data
+                "https://node-red-f3u9.onrender.com.proxy.gbsl.website/daten", json=data
             )
             print(res.content)
             res.close()
