@@ -81,7 +81,7 @@ IP-Multicasting, Wird in einem Netzwerk verwendet um Pakete an mehrere Nutzer gl
 ## NAT
 Es reicht, wenn die IP-Adressen in einem privaten Netzwerk unterschiedlich sind. Sind sie in einem anderen privaten Netzwerk gleich, ist das egal, da die Netzwerke ja privat und somit isoliert voneinander sind.  
 Wenn aber zwei private Netzwerke miteinander kommunizieren wollen, braucht es einen Router, der den privaten IP-Adressen einen eindeutige öffentliche IP-Adresse zuordnet.  
-Diese Übersetzung wird Network Address Translation (NAT) genannt und sit in allen Routern für Heimnetzwerke eingebaut.  
+Diese Übersetzung wird Network Address Translation (NAT) genannt und ist in allen Routern für Heimnetzwerke eingebaut.  
 
 ## Schichtenmodell
 Jede Schicht hat ihren eigenen Nutzen. Nur wenn alle Schichten funktionieren, kann ein Host Daten teilen.  
