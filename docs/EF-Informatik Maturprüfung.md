@@ -335,7 +335,7 @@ Das Programm besteht aus sehr einfachen Teilen. Links stehen die Bedingungen. `(
   - Zustandstabellen -> Programm
   - etc.
 * LMC-Programme lesen, interpretieren, abändern:  
-<div className="small-table">
+
 
 | Instruktion                        | Mnemonic | Opcode | Erklärung                                                          |
 |:-----------------------------------|:---------|:-------|:-------------------------------------------------------------------|
@@ -351,7 +351,6 @@ Das Programm besteht aus sehr einfachen Teilen. Links stehen die Bedingungen. `(
 | Ausgabe                            | `OUT`    | `902`  | Gib den Inhalt des Akkumulators aus                                |
 | Freier Speicherort (Data Location) | `DAT`    |        | Weist dem nächstmöglichen, freien Speicherplatz im RAM einen Name zu. Optional kann auch der Zahlenwert des zugewiesenen Speicherplatzes angegeben werden. |
 
-</div>  
 
 Die Zahl 0 wird bei BRP als positiv gewertet
 
