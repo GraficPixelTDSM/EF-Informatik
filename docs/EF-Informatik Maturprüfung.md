@@ -85,7 +85,7 @@ print(ef)
 ![](images/tabelleNF2_2.png) ![](images/tabelleNF2_3.png)
     * NF 3:  
     Die Tabelle muss in der NF 2 sein und es darf keine funktionalen Abhängigkeiten zwischen Nichtschlüsselattributen geben.  
-![](images/tabelleNF2_1.png)
+![](images/tabelleNF2_1.png)  
 ![](images/tabelleNF3_1.png) ![](images/tabelleNF3_2.png)
        
 * HTTP-Requests, Web-API (GET, POST, UPDATE, DELETE)
