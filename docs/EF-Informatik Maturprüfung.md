@@ -316,7 +316,7 @@ Sensoren sind elektronische Komponente, die Veränderungen in der Umgebung oder 
     * Ereignisse:  
 Ereignisse sind Auslöser für einen Zustandsübergang. Das kann z.B. das Erkennen einer schwarzen Linie sein, was den Zustand von `Halt` zu `Fahren` verändert. 
     * Transitionen:  
-Transitionne sind die durch Ereignisse ausgelösten Zustandsübergänge. 
+Transitionen sind die durch Ereignisse ausgelösten Zustandsübergänge. 
 * Turing-Maschine  
     * Funktionsweise:  
 Eine Turing-Maschine besteht aus einem Band, dem Speicherwerk, einem Lesekopf, dem Adressbus, einem Schreibkopf, dem Datenbus und einer Zustandstabelle, dem Programm. Der Kopf bewegt sich auf dem Band, kann es lesen und reagiert dann laut den Instruktionen auf das gelesene indem er das Band verschiebt, den Zustand ändert oder das Band beschreibt. 
