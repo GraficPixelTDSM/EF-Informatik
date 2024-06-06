@@ -438,4 +438,4 @@ STORE A, 5
 ```
 MULT 5, 14 
 ```
-RISC besteht aus nur 31 Befehlen, di aber alle gebraucht werden. Bei CISC werden nur ein Bruchteil aller Befehle gebraucht, was dann die Notwendigkeit von CISC in den Schatten wirft.
+RISC besteht aus nur 31 Befehlen, die aber alle gebraucht werden. Bei CISC werden nur ein Bruchteil aller Befehle gebraucht, was dann die Notwendigkeit von CISC in den Schatten wirft.
