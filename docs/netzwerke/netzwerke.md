@@ -315,3 +315,19 @@ Im Internet gibt es tausende und alle dienen einem gewissen Zweck.
 - Dynamic Host Configuration Protocol
 - DHCP konfiguriert einem Host die vier Elemente, die bei der Verbindung mit einem neuen Netzwerk nötig sind. Dazu gehört die IP-Adresse, eine Subnetzmaske, das Standartgateway und die IP-Adresse eines DNS-Servers. Das passiert jedes mal, wenn man sich mit einem WLAN verbindet. 
 - Eine Konversation würde folgendermassen aussehen: Client: "Discover", Server: "Offer".
+
+## Empfehlung
+Schaut euch die Videos von [Practical Networking](https://www.youtube.com/@PracticalNetworking) an, diese bieten eine gute Übersicht und Zusammenfassung zum Thema Netzwerke. Ich empfehle folgende Videos in dieser Reihenfolge anzuschauen:  
+* [Lektion 1a - Hosts, IP Addressen, Netzwerke](https://youtu.be/bj-Yfakjllc)
+* [Lektion 1b - Hub, Bridge, Switch, Router](https://youtu.be/H7-NR3Q3BeI)
+* [Lektion 2a - OSI Modell Teil 1](https://youtu.be/LkolbURrtTs)
+* [Lektion 2b - OSI Modell Teil 2](https://youtu.be/0aGqGKrRE0g)
+* [Lektion 3a - Wie kommuniziert ein Host im Internet Teil 1](https://youtu.be/gYN2qN11-wE)
+* [Lektion 3b - Wie kommuniziert ein Host im Internet Teil 2](https://youtu.be/JI9Zm2tbUoE)
+* [Lektion 4a - Was ein Switch macht Teil 1](https://youtu.be/AhOU2eOpmX0)
+* [Lektion 4b - Was ein Switch macht Teil 2](https://youtu.be/G7GyWjJtjNs)
+* [Lektion 5a - Was ein Router macht Teil 1](https://youtu.be/AzXys5kxpAM)
+* [Lektion 5b - Was ein Router macht Teil 2](https://youtu.be/Ep-x_6kggKA)
+* [Lektion 5c - Routerhierarchien und Routen](https://youtu.be/zmxLg4jV0ts)
+* [Lektion 6 - Netzwerkprotokolle](https://youtu.be/E5bSumTAHZE)
+* [Beispiel - Wie sich Daten durch das Internet bewegen](https://youtu.be/YJGGYKAV4pA)
