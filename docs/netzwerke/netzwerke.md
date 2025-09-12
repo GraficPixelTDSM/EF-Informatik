@@ -85,7 +85,8 @@ Diese Übersetzung wird Network Address Translation (NAT) genannt und ist in all
 
 ## Schichtenmodell
 Jede Schicht hat ihren eigenen Nutzen. Nur wenn alle Schichten funktionieren, kann ein Host Daten teilen.  
-![](./images/schichtenmodel.png)
+![](./images/schichtenmodel.png)  
+Please Do Not Throw Salami Pizza Away
 ### Ebene 1 - Physisch
 - Ziel: Bits transportieren
 - Daten existieren (in Form von einsen und nullen)  
@@ -130,7 +131,12 @@ Jede Schicht hat ihren eigenen Nutzen. Nur wenn alle Schichten funktionieren, ka
 ### Ebene 7 - Anwendung
 - 
 ### Schichtenmodell - Senden und Empfangen
-Eine Anwendung generiert Daten. Diese werden an E4 weitergeleitet. Dort wird ein Header mit Protokoll, Quell- und Ziel-Port hinzugefügt ([Protokoll, Quell-Port, Ziel-Port], [Daten]). Dieses Datenpaket wird Segment genannt. Dieses Datenpaket wird zu E3 weitergeleitet, wo die Quell- und Ziel-IP hinzugefügt wird ([Protokoll, Quell-IP, Ziel-IP], [Quell-Port, Ziel-Port], [Daten]). Aus der Sicht der E3 sind die in E4 angehängten Port-Daten unnachvollziehbar. Dieses Datenpaket wird Packet genannt. Das Datenpaket wird nun weitergeleitet an E2. Dort wird ein weiterer Header angefügt, der die MAC-Adresse der nächsten Switch enthält. Bei jeder Switch wird die MAC-Adresse entfernt und aktualisiert, damit sie der nächsten Switch entspricht ([Quell-MAC-Adresse, Ziel-MAC-Adresse], [Protokoll, Quell-IP, Ziel-IP], [Quell-Port, Ziel-Port], [Daten]). Dieses Datenpaket wird Frame genannt. Anschliessend wird es über die E1 in einsen und nullen umgewandelt und über ein Medium übertragen.  
+- Eine Anwendung generiert Daten. Diese werden an E4 weitergeleitet. Dort wird ein Header mit Protokoll, Quell- und Ziel-Port hinzugefügt ([Protokoll, Quell-Port, Ziel-Port], [Daten]). Dieses Datenpaket wird Segment genannt.  
+
+- Dieses Datenpaket wird zu E3 weitergeleitet, wo die Quell- und Ziel-IP hinzugefügt wird ([Protokoll, Quell-IP, Ziel-IP], [Quell-Port, Ziel-Port], [Daten]). Aus der Sicht der E3 sind die in E4 angehängten Port-Daten unnachvollziehbar. Dieses Datenpaket wird Packet genannt.  
+- Das Datenpaket wird nun weitergeleitet an E2. Dort wird ein weiterer Header angefügt, der die MAC-Adresse der nächsten Switch enthält. Bei jeder Switch wird die MAC-Adresse entfernt und aktualisiert, damit sie der nächsten Switch entspricht ([Quell-MAC-Adresse, Ziel-MAC-Adresse], [Protokoll, Quell-IP, Ziel-IP], [Quell-Port, Ziel-Port], [Daten]). Dieses Datenpaket wird Frame genannt.  
+- Anschliessend wird es über die E1 in einsen und nullen umgewandelt und über ein Medium übertragen. 
+
 ![](./images/osipaket.png)  
 Beim Empfänger passiert das genaue Gegenteil.  
 Der Prozess beim Senden wird "Encapsulation" also Kapselung genannt. Der Prozess beim Erhalten wird "De-Encapsulation" also Entkapselung genannt.  
